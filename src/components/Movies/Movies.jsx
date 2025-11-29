@@ -1,17 +1,25 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Box, CircularProgress, useMediaQuery, Typography } from '@mui/material';
 import { useSelector } from 'react-redux';
 
-import { MovieList, Pagination, FeaturedMovie } from '../index';
+import MovieList from '../MovieList/MovieList';
+import Pagination from '../Pagination/Pagination';
+import FeaturedMovie from '../FeaturedMovie/FeaturedMovie';
 import { useGetMoviesQuery } from '../../services/TMDB';
 
 function Movies() {
   const [page, setPage] = useState(1);
   const { genreIdOrCategoryName, searchQuery } = useSelector((state) => state.currentGenreOrCategory);
-  const { data, error, isFetching } = useGetMoviesQuery({ genreIdOrCategoryName, page, searchQuery });
+  const { data, error, isFetching, isError } = useGetMoviesQuery({ genreIdOrCategoryName, page, searchQuery });
 
   const lg = useMediaQuery((theme) => theme.breakpoints.only('lg'));
   const numberOfMovies = lg ? 17 : 19;
+
+  useEffect(() => {
+    if (isError) {
+      console.error('Error fetching movies:', error);
+    }
+  }, [isError, error]);
 
   if (isFetching) {
     return (
@@ -21,19 +29,27 @@ function Movies() {
     );
   }
 
-  if (!data.results.length) {
+  if (isError) {
     return (
       <Box display="flex" justifyContent="center" alignItems="center" mt="20px">
-        <Typography variant="h4">
-          No movies that match that name.
-          <br />
-          Please searh for something else.
+        <Typography variant="h6" color="error">
+          {error?.data?.status_message || 'An error occurred while fetching movies.'}
         </Typography>
       </Box>
     );
   }
 
-  if (error) return 'An error has occured.';
+  if (!data?.results?.length) {
+    return (
+      <Box display="flex" justifyContent="center" alignItems="center" mt="20px">
+        <Typography variant="h4">
+          No movies found.
+          <br />
+          {searchQuery ? 'Please try a different search term.' : 'Please try again later.'}
+        </Typography>
+      </Box>
+    );
+  }
 
   return (
     <div>

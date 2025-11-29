@@ -6,7 +6,8 @@ import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
 import useStyles from './styles';
-import { Search, Sidebar } from '../index';
+import Search from '../Search/Search';
+import Sidebar from '../Sidebar/Sidebar';
 import { setUser } from '../../features/auth';
 import { fetchToken, createSessionId, moviesApi } from '../../utils/index';
 import { ColorModeContext } from '../../utils/ToggleColorMode';

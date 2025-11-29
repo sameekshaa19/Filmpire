@@ -1,8 +1,18 @@
 import React, { useEffect } from 'react';
-import { Divider, List, ListItem, ListItemText, ListSubheader, ListItemIcon, Box, CircularProgress } from '@mui/material';
+import {
+  Divider,
+  List,
+  ListItem,
+  ListItemText,
+  ListSubheader,
+  ListItemIcon,
+  Box,
+  CircularProgress,
+} from '@mui/material';
 import { Link } from 'react-router-dom';
 import { useTheme } from '@mui/styles';
 import { useDispatch, useSelector } from 'react-redux';
+import { AutoStories } from '@mui/icons-material';
 
 import useStyles from './styles';
 import { useGetGenresQuery } from '../../services/TMDB';
@@ -51,6 +61,26 @@ function Sidebar({ setMobileOpen }) {
             </ListItem>
           </Link>
         ))}
+      </List>
+      <Divider />
+      <List>
+        <ListSubheader>Universe Guides</ListSubheader>
+        <Link className={classes.links} to="/lore">
+          <ListItem button>
+            <ListItemIcon>
+              <AutoStories color="primary" />
+            </ListItemIcon>
+            <ListItemText primary="Lore + Universe Mode" secondary="Watch orders & timelines" />
+          </ListItem>
+        </Link>
+        <Link className={classes.links} to="/filmiq">
+          <ListItem button>
+            <ListItemIcon>
+              <AutoStories color="secondary" />
+            </ListItemIcon>
+            <ListItemText primary="Film IQ" secondary="3-question adaptive quiz" />
+          </ListItem>
+        </Link>
       </List>
       <Divider />
       <List>

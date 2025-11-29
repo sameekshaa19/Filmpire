@@ -5,7 +5,8 @@ import { ArrowBack } from '@mui/icons-material';
 
 import useStyles from './styles';
 import { useGetActorQuery, useGetMoviesByActorIdQuery } from '../../services/TMDB';
-import { MovieList, Pagination } from '../index';
+import MovieList from '../MovieList/MovieList';
+import Pagination from '../Pagination/Pagination';
 
 function Actors() {
   const classes = useStyles();
