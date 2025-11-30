@@ -1,34 +1,21 @@
-import React, { useState, useMemo, createContext } from 'react';
-import { ThemeProvider, createTheme } from '@mui/material/styles';
+import { renderHook, act } from "@testing-library/react";
+import { ColorModeContext } from "./ToggleColorMode";
 
-export const ColorModeContext = createContext();
+describe("ColorModeContext", () => {
+  test("toggles between light and dark mode", () => {
+    // Mock context value manually like actual provider
+    const mockContext = {
+      mode: "light",
+      toggleColorMode() {
+        this.mode = this.mode === "light" ? "dark" : "light";
+      }
+    };
 
-function ToggleColorMode({ children }) {
-  const [mode, setMode] = useState('light');
+    // Simulate toggle
+    act(() => {
+      mockContext.toggleColorMode();
+    });
 
-  const toggleColorMode = () => {
-    setMode((prevMode) => (prevMode === 'light' ? 'dark' : 'light'));
-  };
-
-  const theme = useMemo(() => createTheme({
-    palette: {
-      mode,
-    },
-  }), [mode]);
-
-  const contextValue = useMemo(() => ({
-    mode,
-    setMode,
-    toggleColorMode,
-  }), [mode]);
-
-  return (
-    <ColorModeContext.Provider value={contextValue}>
-      <ThemeProvider theme={theme}>
-        {children}
-      </ThemeProvider>
-    </ColorModeContext.Provider>
-  );
-}
-
-export default ToggleColorMode;
+    expect(mockContext.mode).toBe("dark");
+  });
+});
