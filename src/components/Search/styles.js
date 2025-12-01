@@ -1,3 +1,4 @@
+// minor formatting comment for commit
 import { makeStyles } from '@mui/styles';
 
 export default makeStyles((theme) => ({
